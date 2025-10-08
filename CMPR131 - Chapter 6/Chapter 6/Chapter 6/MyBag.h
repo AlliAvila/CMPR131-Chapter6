@@ -10,9 +10,9 @@ private:
 public:
 	MyBag()
 	{
-		bag = nullptr;
+		capacity = 3;
 		size = 0;
-		capacity = 0;
+		bag = new int [capacity];
 	}
 	~MyBag()
 	{
@@ -22,37 +22,36 @@ public:
 	{
 		return size;
 	}
+	int getCapacity() const
+	{
+		return capacity;
+	}
 	void insert(int value)
 	{
-		int* newArray = new int[size + 1];
-		
-		for (int i = 0; i < size; i++)
+		if (size == capacity)
 		{
-			newArray[i] = bag[i];
+			growBag();
 		}
+
+		bag[size] = value;
 
 		size++;
-		delete[] bag;
-
-		bag = newArray;
-		bag[size - 1] = value;
-
 	}
-	void display()
+	void growBag()
 	{
-		if (size == 0)
+		int* temp = new int[capacity * 2];
+
+		capacity *= 2;
+
+		for (int i = 0; i < size; i++)
 		{
-			string exceptionString = "\n\t\tMyBag is empty.\n\n";
-			throw exceptionString;
-		}
-		else
-		{
-			cout << "\n\t\tMybag contains these sorted integers:";
-			for (int i = 0; i < size; i++)
-				cout << "\n\t\t[" + to_string(i) + "] - " + to_string(bag[i]);
+			temp[i] = bag[i];
 		}
 
-		cout << "\n";
+		delete bag;
+
+		bag = temp;
+
 	}
 	void clear()
 	{
@@ -73,21 +72,37 @@ public:
 	}
 	void remove(int index)
 	{
-		
-		int* TempArray = new int[size - 1];
-		int newIndex = 0;
-
-
-		//copying elements into new array except for deleted one
 		for (int i = 0; i < size; i++)
 		{
-			if (i != index) //this is what skips over the deleted element, will copy everything else into new array
-				TempArray[newIndex++] = bag[i];
+			bag[i] = bag[i++];
 		}
 
-		delete[] bag;
-		bag = TempArray;
-		size -= 1;  
+		bag[size - 1] = 0;
+
+		size--;
+
+
+		if (size == (capacity / 2))
+		{
+			shrinkBag();
+
+		}
+
+	}
+	void shrinkBag()
+	{
+		capacity = size;
+
+		int* temp = new int[capacity];
+
+		for (int i = 0; i < size; i++)
+		{
+			temp[i] = bag[i];
+		}
+
+		delete bag;
+
+		bag = temp;
 
 	}
 	int linearSearch(int value)
@@ -105,5 +120,24 @@ public:
 		return bag[index];
 	}
 
+	friend ostream& operator << (ostream& output, MyBag& bag);
+
 };
 
+ostream& operator << (ostream& output, MyBag& bag)
+{
+	if (bag.size == 0)
+	{
+		string exceptionString = "\n\t\tMyBag is empty.\n\n";
+		throw exceptionString;
+	}
+	else
+	{
+		cout << "\n\t\tMybag contains these sorted integers:";
+		for (int i = 0; i < bag.size; i++)
+			cout << "\n\t\t[" + to_string(i) + "] - " + to_string(bag[i]);
+	}
+
+	cout << "\n";
+
+}
