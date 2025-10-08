@@ -4,6 +4,8 @@
 #include <iostream>
 #include "input.h"
 #include "MyBag.h"
+#include "MyBagTemplate.h"
+#include "Course.h"
 
 using namespace std;
 
@@ -27,9 +29,9 @@ int main()
 		switch (inputInteger("\n\t\tOption: ", 0, 3))
 		{
 		case 0: exit(0);
-		case 1: option1();break;
-		case 2: option2();break;
-		case 3: option3();break;
+		case 1: option1(); break;
+		case 2: option2(); break;
+		case 3: option3(); break;
 		}
 
 
@@ -70,7 +72,7 @@ void option1()
 			{
 				cout << exceptionString;
 			}
-		
+
 		}; break;
 		case 'B':
 		{
@@ -98,7 +100,7 @@ void option1()
 		{
 			if (bag.getSize() != 0)
 			{
-				int value = inputInteger("\n\tEnter an index(subscript) from MyBag to be deleted: ", 0, bag.getSize() -1 );
+				int value = inputInteger("\n\tEnter an index(subscript) from MyBag to be deleted: ", 0, bag.getSize() - 1);
 				cout << "\n\tValue " + to_string(bag[value]) + " has been deleted from MyBag.\n\n";
 				bag.remove(value);
 			}
@@ -160,8 +162,13 @@ void option2()
 		}
 	} while (true);
 }
+
 void option3()
 {
+	Course* courses = nullptr;
+	int numCourses = 0;
+	bool coursesCreated = false;
+
 	do
 	{
 		system("cls");
@@ -177,12 +184,37 @@ void option3()
 		cout << "\n\t" << string(65, char(205));
 		switch (inputInteger("\n\t\tOption: ", 0, 5))
 		{
-		case 0: return;break;
-		case 1: break;
-		case 2: break;
-		case 3: break;
-		case 4: break;
-		case 5: break;
+		case 0:
+		{
+			delete[] courses;
+			return;
+		}
+			break;
+		case 1:
+		{
+			numCourses = inputInteger("\n\t");
+		}
+			break;
+		case 2: 
+		{
+
+		}
+			break;
+		case 3: 
+		{
+
+		}
+			break;
+		case 4: 
+		{
+
+		}
+			break;
+		case 5: 
+		{
+
+		}
+			break;
 		}
 
 
