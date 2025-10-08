@@ -115,7 +115,7 @@ void option1()
 		{
 			try
 			{
-				bag.display();
+				cout << bag;
 			}
 			catch (string exceptionString)
 			{
