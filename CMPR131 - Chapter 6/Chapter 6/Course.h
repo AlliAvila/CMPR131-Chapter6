@@ -100,7 +100,7 @@ public:
 
         if (!inFile)
         {
-            cerr << "\n\tERROR: File, " << filename << ", cannot be found. Please re-specify.\n";
+            cout << "\n\tERROR: File, " << filename << ", cannot be found. Please re-specify.\n";
             return false;
         }
 
