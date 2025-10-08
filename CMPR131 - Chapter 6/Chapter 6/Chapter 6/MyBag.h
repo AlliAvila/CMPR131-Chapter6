@@ -133,11 +133,13 @@ ostream& operator << (ostream& output, MyBag& bag)
 	}
 	else
 	{
-		cout << "\n\t\tMybag contains these sorted integers:";
+		output << "\n\t\tMybag contains these sorted integers:";
 		for (int i = 0; i < bag.size; i++)
 			cout << "\n\t\t[" + to_string(i) + "] - " + to_string(bag[i]);
 	}
 
-	cout << "\n";
+	output << "\n";
+
+	return output;
 
 }
