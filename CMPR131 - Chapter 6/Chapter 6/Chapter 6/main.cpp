@@ -70,39 +70,40 @@ void option1()
 
 		}; break;
 		case 'B':
-		{
-			int value = inputInteger("\n\t\tEnter a value and insert into MyBag: ");
-			bag.insert(value);
-			cout << "\n\t\t" + to_string(value) + " has been inserted into MyBag.\n\n";
+{
+	int value = inputInteger("\n\t\tEnter a value and insert into MyBag: ");
+	bag.insert(value);
+	cout << "\n\t\t" << value << " has been inserted into MyBag.\n\n";
 
-		}break;
-		case 'C':
-		{
-			if (bag.getSize() != 0)
-			{
-				int value = inputInteger("\n\tEnter a value to search from MyBag: ");
-				if (bag.linearSearch(value) != -1)
-					cout << "\n\tValue " << value << " is found at subscript #" << bag.linearSearch(value) << " from MyBag.\n\n";
-				else
-					cout << "\n\tValue " << value << " is not found from MyBag.\n\n";
-			}
-			else
-				cout << "\n\t\tMyBag is empty.\n\n";
+}break;
+case 'C':
+{
+	if (bag.getSize() != 0)
+	{
+		int value = inputInteger("\n\tEnter a value to search from MyBag: ");
+		int index = bag.linearSearch(value);
+		if (index != -1)
+			cout << "\n\tValue " << value << " is found at subscript #" << index << " from MyBag.\n\n";
+		else
+			cout << "\n\tValue " << value << " is not found from MyBag.\n\n";
+	}
+	else
+		cout << "\n\t\tMyBag is empty.\n\n";
 
 
-		}break;
-		case 'D':
-		{
-			if (bag.getSize() != 0)
-			{
-				int value = inputInteger("\n\tEnter an index(subscript) from MyBag to be deleted: ", 0, bag.getSize() - 1);
-				cout << "\n\tValue " + to_string(bag[value]) + " has been deleted from MyBag.\n\n";
-				bag.remove(value);
-			}
-			else
-				cout << "\n\t\tMyBag is empty.\n\n";
+}break;
+case 'D':
+{
+	if (bag.getSize() != 0)
+	{
+		int value = inputInteger("\n\tEnter an index(subscript) from MyBag to be deleted: ", 0, bag.getSize() - 1);
+		cout << "\n\tValue " << bag[value] << " has been deleted from MyBag.\n\n";
+		bag.remove(value);
+	}
+	else
+		cout << "\n\t\tMyBag is empty.\n\n";
 
-		}break;
+}break;
 		case 'E':
 		{
 			if (bag.getSize() != 0)
@@ -281,3 +282,4 @@ void option3()
 
 	} while (true);
 }
+
