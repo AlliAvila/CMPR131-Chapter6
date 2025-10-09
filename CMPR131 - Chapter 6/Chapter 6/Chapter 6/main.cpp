@@ -167,7 +167,9 @@ void option3()
 {
 	Course* courses = nullptr;
 	int numCourses = 0;
+	string filename;
 	bool coursesCreated = false;
+	bool exitOption3 = false; // flag to exit outer option3 menu
 
 	do
 	{
@@ -184,23 +186,25 @@ void option3()
 		cout << "\n\t" << string(65, char(205));
 		switch (inputInteger("\n\t\tOption: ", 0, 5))
 		{
-				case 0:
+		case 0:
 		{
 			delete[] courses;
+			courses = nullptr;
+			exitOption3 = true;
 			return;
 		}
-			break;
+		break;
 		case 1:
 		{
 			numCourses = inputInteger("\n\tEnter the number of courses: ", true);
 			coursesCreated = true;
 			courses = new Course[numCourses];
-			
+
 			cout << "\n\t" << numCourses << " courses have been created.\n\n";
 			system("pause");
 		}
-			break;
-		case 2: 
+		break;
+		case 2:
 		{
 			if (!coursesCreated)
 			{
@@ -227,9 +231,154 @@ void option3()
 					i--; // retry same course index
 				}
 			}
+
+			cout << "\n";
+			system("pause");
 		}
-			break;
-		case 3: 
+		break;
+		case 3:
+		{
+			if (!coursesCreated)
+			{
+				cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
+				system("pause");
+				break;
+			}
+
+			bool exitSearch = false; // flag for inner search loop
+			do
+			{
+				system("cls");
+				cout << "\n\t3. Search By";
+				cout << "\n\t" << string(65, char(205));
+				cout << "\n\t\t1> ID Number";
+				cout << "\n\t\t2> Name";
+				cout << "\n\t" << string(65, char(196));
+				cout << "\n\t\t0> Return";
+				cout << "\n\t" << string(65, char(205));
+
+				switch (inputInteger("\n\t\tOption: ", 0, 2))
+				{
+				case 0:
+				{
+					exitSearch = true;
+					break;
+				}
+					break;
+				case 1: // Search by ID
+				{
+					int id = inputInteger("\n\tEnter student ID to search for: ");
+					bool found = false;
+
+					for (int i = 0; i < numCourses; i++)
+					{
+						int index = courses[i].searchStudentByID(id);
+						if (index != -1)
+						{
+							cout << "\n\tID: " << id
+								<< " found in Course: "
+								<< courses[i].getCourseName() << "\n";
+							found = true;
+						}
+					}
+
+					if (!found)
+					{
+						cout << "\n\tNo student found with ID " << id << ".\n";
+					}
+
+				} break;
+				case 2: // Search by Name
+				{
+					string name = inputString("\n\tEnter student name to search for: ", true);
+					bool found = false;
+
+					for (int i = 0; i < numCourses; i++)
+					{
+						int index = courses[i].searchStudentByName(name);
+						if (index != -1)
+						{
+							cout << "\n\t" << name
+								<< " found in Course: "
+								<< courses[i].getCourseName() << "\n";
+							found = true;
+						}
+					}
+
+					if (!found)
+					{
+						cout << "\n\tNo student found with name \"" << name << "\".\n";
+					}
+
+				} break;
+				} 
+				if (exitSearch) break;
+				cout << "\n";
+				system("pause");
+			} while (true);
+		}
+		break;
+		case 4:
+		{
+			if (!coursesCreated)
+			{
+				cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
+				system("pause");
+				break;
+			}
+
+			bool exitRemove = false; // flag for inner remove loop
+			do
+			{
+				system("cls");
+				cout << "\n\t4. Remove Student Record";
+				cout << "\n\t" << string(65, char(205));
+
+				// Display all courses with index
+				for (int i = 0; i < numCourses; i++)
+				{
+					cout << "\n\t\t" << (i + 1) << "> " << courses[i].getCourseName()
+						<< " (" << courses[i].getSize() << " students)";
+				}
+
+				cout << "\n\t" << string(65, char(196));
+				cout << "\n\t\t0> Return";
+				cout << "\n\t" << string(65, char(205));
+
+				// Ask user to pick 1..numCourses (0 to return)
+				int courseChoice = inputInteger("\n\t\tOption: ", 0, numCourses);
+
+				if (courseChoice == 0)
+				{
+					exitRemove = 0;
+					break; 
+				}
+
+				// Adjust to 0-based index
+				int courseIndex = courseChoice - 1;
+
+				// Prompt for student ID in the selected course
+				int studentID = inputInteger("\n\tEnter student ID to remove: ", true);
+
+				if (courses[courseIndex].removeStudentByID(studentID))
+				{
+					cout << "\n\tStudent ID " << studentID
+						<< " has been removed from course "
+						<< courses[courseIndex].getCourseName() << ".\n";
+				}
+				else
+				{
+					cout << "\n\tERROR: Student ID " << studentID
+						<< " not found in course "
+						<< courses[courseIndex].getCourseName() << ".\n";
+				}
+
+				cout << "\n";
+				system("pause");
+			} while (!exitRemove);
+		}
+		break;
+		case 5:
 		{
 			if (!coursesCreated)
 			{
@@ -240,33 +389,10 @@ void option3()
 
 
 		}
-			break;
-		case 4: 
-		{
-			if (!coursesCreated)
-			{
-				cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
-				system("pause");
-				break;
-			}
-
-
-		}
-			break;
-		case 5: 
-		{
-			if (!coursesCreated)
-			{
-				cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
-				system("pause");
-				break;
-			}
-
-
-		}
-			break;
-		}
+		break;
+		} if (exitOption3) break;
 
 	} while (true);
+
 }
 
