@@ -157,7 +157,7 @@ void option2()
 		}; break;
 		case 'B':
 		{
-			int value = inputInteger("\n\t\tEnter a value and insert into MyBagTemplate : ");
+			double value = inputInteger("\n\t\tEnter a value and insert into MyBagTemplate : ");
 			bag.insert(value);
 			cout << "\n\t\t" + to_string(value) + " has been inserted into MyBagTemplate .\n\n";
 
@@ -166,7 +166,7 @@ void option2()
 		{
 			if (bag.getSize() != 0)
 			{
-				int value = inputInteger("\n\tEnter a value to search from MyBagTemplate: ");
+				double value = inputInteger("\n\tEnter a value to search from MyBagTemplate: ");
 				if (bag.linearSearch(value) != -1)
 					cout << "\n\tValue " << value << " is found at subscript #" << bag.linearSearch(value) << " from MyBagTemplate.\n\n";
 				else
