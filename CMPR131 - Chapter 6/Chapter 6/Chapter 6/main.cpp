@@ -184,7 +184,7 @@ void option3()
 		cout << "\n\t" << string(65, char(205));
 		switch (inputInteger("\n\t\tOption: ", 0, 5))
 		{
-		case 0:
+				case 0:
 		{
 			delete[] courses;
 			return;
@@ -192,31 +192,81 @@ void option3()
 			break;
 		case 1:
 		{
-			numCourses = inputInteger("\n\t");
+			numCourses = inputInteger("\n\tEnter the number of courses: ", true);
+			coursesCreated = true;
+			courses = new Course[numCourses];
+			
+			cout << "\n\t" << numCourses << " courses have been created.\n\n";
+			system("pause");
 		}
 			break;
 		case 2: 
 		{
+			if (!coursesCreated)
+			{
+				cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
+				system("pause");
+				break;
+			}
 
+			for (int i = 0; i < numCourses; i++)
+			{
+				filename = inputString("\n\tEnter a data file name for course[" + to_string(i) + "] (STOP - return): ", true);
+
+				if (filename == "STOP")
+				{
+					break;
+				}
+
+				if (courses[i].loadFromFile(filename) == true)
+				{
+					cout << "\n\tData from file, " << filename << ", has been read and stored into courses[" << i << "].\n";
+				}
+				else
+				{
+					i--; // retry same course index
+				}
+			}
 		}
 			break;
 		case 3: 
 		{
+			if (!coursesCreated)
+			{
+				cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
+				system("pause");
+				break;
+			}
+
 
 		}
 			break;
 		case 4: 
 		{
+			if (!coursesCreated)
+			{
+				cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
+				system("pause");
+				break;
+			}
+
 
 		}
 			break;
 		case 5: 
 		{
+			if (!coursesCreated)
+			{
+				cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
+				system("pause");
+				break;
+			}
+
 
 		}
 			break;
 		}
 
-
 	} while (true);
 }
+
