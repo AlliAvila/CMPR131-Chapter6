@@ -12,20 +12,24 @@ public:
 	{
 		capacity = 3;
 		size = 0;
-		bag = new int [capacity];
+		bag = new int[capacity];
 	}
+
 	~MyBag()
 	{
 		delete[] bag;
 	}
+
 	int getSize() const
 	{
 		return size;
 	}
+
 	int getCapacity() const
 	{
 		return capacity;
 	}
+
 	void insert(int value)
 	{
 		if (size == capacity)
@@ -37,22 +41,33 @@ public:
 
 		size++;
 	}
+
+	// changed
 	void growBag()
 	{
-		int* temp = new int[capacity * 2];
+		int newCapacity;
 
-		capacity *= 2;
+		if (capacity != 0)
+		{
+			newCapacity = capacity * 2;
+		}
+		else
+		{
+			newCapacity = 3;
+		}
+
+		int* temp = new int[newCapacity];
 
 		for (int i = 0; i < size; i++)
 		{
 			temp[i] = bag[i];
 		}
 
-		delete bag;
-
+		delete[] bag;
 		bag = temp;
-
+		capacity = newCapacity;
 	}
+
 	void clear()
 	{
 		if (bag == nullptr)
@@ -61,20 +76,22 @@ public:
 			throw exceptionString;
 		}
 
-		delete bag;
+		delete[] bag;
 		size = 0;
 		capacity = 0;
 	}
+
 	void sortBag()
 	{
 		sort(bag, bag + size);
 		cout << "\n\tMybag has been sorted.\n\n";
 	}
+
 	void remove(int index)
 	{
-		for (int i = 0; i < size; i++)
+		for (int i = index; i < size - 1; i++)
 		{
-			bag[i] = bag[i++];
+			bag[i] = bag[i + 1];
 		}
 
 		bag[size - 1] = 0;
@@ -89,6 +106,7 @@ public:
 		}
 
 	}
+
 	void shrinkBag()
 	{
 		capacity = size;
@@ -100,11 +118,12 @@ public:
 			temp[i] = bag[i];
 		}
 
-		delete bag;
+		delete[] bag;
 
 		bag = temp;
 
 	}
+
 	int linearSearch(int value)
 	{
 		for (int i = 0; i < size; i++)
@@ -115,16 +134,17 @@ public:
 
 		return -1;
 	}
+
 	int operator[](int index) const
 	{
 		return bag[index];
 	}
 
-	friend ostream& operator << (ostream& output, MyBag& bag);
+	friend ostream& operator << (ostream& output, const MyBag& bag);
 
 };
 
-ostream& operator << (ostream& output, MyBag& bag)
+ostream& operator << (ostream& output, const MyBag& bag)
 {
 	if (bag.size == 0)
 	{
@@ -141,5 +161,5 @@ ostream& operator << (ostream& output, MyBag& bag)
 	output << "\n";
 
 	return output;
-
 }
+
