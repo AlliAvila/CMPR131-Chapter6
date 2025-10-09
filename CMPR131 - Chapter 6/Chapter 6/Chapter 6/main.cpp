@@ -379,20 +379,59 @@ void option3()
 		}
 		break;
 		case 5:
+{
+	if (!coursesCreated)
+	{
+		cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
+		system("pause");
+		break;
+	}
+
+	while (true)
+	{
+		system("cls");
+		cout << "\n\t5. Display Course Records";
+		cout << "\n\t" << string(65, char(205));
+
+		// Display course options
+		for (int i = 0; i < numCourses; i++)
 		{
-			if (!coursesCreated)
-			{
-				cout << "\n\tERROR: Number of courses has not been assigned.\n\n";
-				system("pause");
-				break;
-			}
-
-
+			cout << "\n\t\t" << (i + 1) << "> " << courses[i].getCourseName();
 		}
+		cout << "\n\t\t" << (numCourses + 1) << "> Display All";
+		cout << "\n\t" << string(65, char(196));
+		cout << "\n\t\t0> Return";
+		cout << "\n\t" << string(65, char(205));
+
+		int choice = inputInteger("\n\t\tOption: ", 0, numCourses + 1);
+
+		if (choice == 0)
+		{
+			break; // return to previous menu
+		}
+
+		else if (choice == numCourses + 1)
+		{
+			system("cls");
+			for (int i = 0; i < numCourses; i++)
+			{
+				cout << courses[i] << endl;
+			}
+			system("pause");
+		}
+		else
+		{
+			system("cls");
+			cout << courses[choice - 1] << endl;
+			system("pause");
+		}
+	}
+}
 		break;
 		} if (exitOption3) break;
 
 	} while (true);
 
 }
+
 
