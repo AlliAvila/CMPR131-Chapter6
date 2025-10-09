@@ -77,8 +77,9 @@ public:
 		}
 
 		delete[] bag;
+		bag = new int[capacity];
 		size = 0;
-		capacity = 0;
+		capacity = 3;
 	}
 
 	void sortBag()
@@ -162,4 +163,5 @@ ostream& operator << (ostream& output, const MyBag& bag)
 
 	return output;
 }
+
 
