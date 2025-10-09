@@ -115,45 +115,45 @@ public:
 	// Precondition: filename is a valid file path to a file with course and student data.
 	// Postcondition: The course name and student records are loaded from the file into the Course object. Returns true if successful, false otherwise.
     bool loadFromFile(const string& filename)
+{
+    ifstream inFile(filename);
+
+    if (!inFile)
     {
-        ifstream inFile(filename);
-
-        if (!inFile)
-        {
-            cout << "\n\tERROR: Could not open file: " << filename << endl;
-            return false;
-        }
-
-        // Read course name (first line)
-        getline(inFile, courseName);
-
-        string line;
-        while (getline(inFile, line))
-        {
-            if (line.empty())
-            {
-                continue; // skip blank lines
-            }
-
-            vector<string> tokens;
-            split(line, ',', tokens);
-
-            if (tokens.size() != 3)
-            {
-                continue; // make sure there are exactly 3 tokens: ID, Name, Score
-            }
-
-            int id = stoi(tokens[0]);
-            string name = tokens[1];
-            double score = stod(tokens[2]);
-            char grade = calculateGrade(score);
-
-            addStudent(id, name, score, grade);
-        }
-
-        inFile.close();
-        return true;
+        cout << "\n\tERROR: Could not open file: " << filename << endl;
+        return false;
     }
+
+    // Read course name (first line)
+    getline(inFile, courseName);
+
+    string line;
+    while (getline(inFile, line))
+    {
+        if (line.empty())
+        {
+            continue; // skip blank lines
+        }
+
+        vector<string> tokens;
+        split(line, ',', tokens);
+
+        if (tokens.size() != 3)
+        {
+            continue; // make sure there are exactly 3 tokens: ID, Name, Score
+        }
+
+        int id = stoi(tokens[0]);
+        string name = tokens[1];
+        double score = stod(tokens[2]);
+        char grade = calculateGrade(score);
+
+        addStudent(id, name, score, grade);
+    }
+
+    inFile.close();
+    return true;
+}
 
     //Precondition: s is a string to be split, delim is the delimiter character, and tokens is a vector to store the split tokens.
     //Postcondition: The string s is split into tokens based on the delimiter delim, and the tokens are stored in the vector tokens.
