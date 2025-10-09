@@ -94,32 +94,130 @@ public:
     }
 
     // Load course + students from text file
-    bool loadFromFile(const string& filename)
+bool loadFromFile(const string& filename)
+{
+    ifstream inFile(filename);
+
+    if (!inFile)
     {
-        ifstream inFile(filename);
-
-        if (!inFile)
-        {
-            cout << "\n\tERROR: File, " << filename << ", cannot be found. Please re-specify.\n";
-            return false;
-        }
-
-        inFile >> courseName;
-
-        int id;
-        string name;
-        double score;
-        char grade;
-
-        while (inFile >> id >> name >> score >> grade)
-        {
-            addStudent(id, name, score, grade);
-        }
-
-        inFile.close();
-        return true;
+        cout << "\n\tERROR: File, " << filename << ", cannot be found. Please re-specify.\n";
+        return false;
     }
 
+    // Read first line for course name
+    getline(inFile, courseName);
+
+    string line;
+    while (getline(inFile, line))
+    {
+        if (line.empty())
+        {
+            continue; // skip any blank lines
+        }
+
+        vector<string> tokens;
+        split(line, ',', tokens);
+
+        // Expected format: ID, Name, Score
+        if (tokens.size() != 3)
+        {
+            continue; // skip malformed lines safely
+        }
+
+        int id = stoi(tokens[0]);
+        string name = tokens[1];
+        double score = stod(tokens[2]);
+
+        // Calculate grade
+        char grade = calculateGrade(score);
+
+        // Add student record
+        addStudent(id, name, score, grade);
+    }
+
+    inFile.close();
+    return true;
+}
+
+//Precondition: s is a string to be split, delim is the delimiter character, and tokens is a vector to store the split tokens.
+//Postcondition: The string s is split into tokens based on the delimiter delim, and the tokens are stored in the vector tokens.
+void split(const string& s, char delim, vector<string>& tokens)
+{
+    // starting position of the next token
+    int tokenStart = 0;
+
+    // Find the first occurrence of the delimiter
+    int delimPosition = s.find(delim);
+
+    // While not ran out of delimiters
+    while (delimPosition != string::npos)
+    {
+        // Extracts the token
+        string tok = s.substr(tokenStart, delimPosition - tokenStart);
+
+        // Push the token onto the tokens vector
+        tokens.push_back(tok);
+
+        // Move delimPosition to the next character position
+        delimPosition++;
+        // move token start to delimPosition
+        tokenStart = delimPosition;
+
+        // Find the next occurrence of the delimiter
+        delimPosition = s.find(delim, delimPosition);
+
+        // if no more delimiters, extract the last token
+        if (delimPosition == string::npos)
+        {
+            // Extract the token
+            string tok = s.substr(tokenStart, delimPosition - tokenStart);
+
+            // Push the token onto the vector
+            tokens.push_back(tok);
+        }
+    }
+}
+
+char calculateGrade(double score)
+{
+    if (score >= 90)
+    {
+        return 'A';
+    }
+    else if (score >= 80)
+    {
+        return 'B';
+    }
+    else if (score >= 70)
+    {
+        return 'C';
+    }
+    else if (score >= 60)
+    {
+        return 'D';
+    }
+    else
+    {
+        return 'F';
+    }
+}
+
+double calculateAverageScore()
+{
+    if (studentScores.getSize() == 0)
+    {
+        return 0.0; // avoid division by zero
+    }
+
+    double total = 0.0;
+
+    for (int i = 0; i < studentScores.getSize(); i++)
+    {
+        total += studentScores[i]; 
+    }
+
+    return total / studentScores.getSize();
+}
     // Comparison operator (for sorting)
     bool operator<(const Course& other) const
     {
