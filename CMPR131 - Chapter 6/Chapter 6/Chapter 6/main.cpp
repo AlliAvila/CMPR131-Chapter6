@@ -105,8 +105,12 @@ void option1()
 		}break;
 		case 'E':
 		{
-			bag.sortBag();
-
+			if (bag.getSize() != 0)
+			{
+			     bag.sortBag();
+			}
+			else
+				cout << "\n\t\tMyBag is empty.\n\n";
 		}break;
 		case 'F':
 		{
@@ -191,7 +195,12 @@ void option2()
 		}break;
 		case 'E':
 		{
-			bag.sortBag();
+			if (bag.getSize() != 0)
+			{
+				bag.sortBag();
+			}
+			else
+				cout << "\n\t\tMyBag is empty.\n\n";
 
 		}break;
 		case 'F':
