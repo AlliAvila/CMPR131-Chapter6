@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include <iostream>
 
 class MyBag
 {
@@ -48,23 +49,20 @@ public:
 			temp[i] = bag[i];
 		}
 
-		delete bag;
+		delete[] bag;
 
 		bag = temp;
 
 	}
 	void clear()
 	{
-		if (bag == nullptr)
-		{
-			string exceptionString = "\n\t\tMyBag is empty.\n\n";
-			throw exceptionString;
-		}
-
-		delete bag;
+		delete[] bag;
 		size = 0;
-		capacity = 0;
+		capacity = 3;
+		bag = new int[capacity];
+		cout << "\n\t\tMyBag is cleared of all elements.\n";
 	}
+
 	void sortBag()
 	{
 		sort(bag, bag + size);
@@ -100,7 +98,7 @@ public:
 			temp[i] = bag[i];
 		}
 
-		delete bag;
+		delete[] bag;
 
 		bag = temp;
 
@@ -120,11 +118,11 @@ public:
 		return bag[index];
 	}
 
-	friend ostream& operator << (ostream& output, MyBag& bag);
+	friend ostream& operator << (ostream& output, const MyBag& bag);
 
 };
 
-ostream& operator << (ostream& output, MyBag& bag)
+ostream& operator << (ostream& output,const MyBag& bag)
 {
 	if (bag.size == 0)
 	{
@@ -135,7 +133,7 @@ ostream& operator << (ostream& output, MyBag& bag)
 	{
 		output << "\n\t\tMybag contains these sorted integers:";
 		for (int i = 0; i < bag.size; i++)
-			cout << "\n\t\t[" + to_string(i) + "] - " + to_string(bag[i]);
+			output << "\n\t\t[" + to_string(i) + "] - " + to_string(bag[i]);
 	}
 
 	output << "\n";
