@@ -4,6 +4,8 @@
 #include <iostream>
 #include "input.h"
 #include "MyBag.h"
+#include "MyBagTemplate.h"
+#include "Course.h"
 
 using namespace std;
 
@@ -27,9 +29,9 @@ int main()
 		switch (inputInteger("\n\t\tOption: ", 0, 3))
 		{
 		case 0: exit(0);
-		case 1: option1();break;
-		case 2: option2();break;
-		case 3: option3();break;
+		case 1: option1(); break;
+		case 2: option2(); break;
+		case 3: option3(); break;
 		}
 
 
@@ -39,6 +41,9 @@ int main()
 
 	return 0;
 }
+
+//Precondition: N/A
+//Postcondition: Displays a menu for Non-template MyBag container of int
 void option1()
 {
 	MyBag bag;
@@ -61,16 +66,8 @@ void option1()
 		case '0': return; break;
 		case 'A':
 		{
-			try
-			{
-				bag.clear();
-				cout << "\n\t\tMyBag is cleared of all elements.\n.";
-			}
-			catch (string exceptionString)
-			{
-				cout << exceptionString;
-			}
-		
+			bag.clear();	
+
 		}; break;
 		case 'B':
 		{
@@ -98,7 +95,7 @@ void option1()
 		{
 			if (bag.getSize() != 0)
 			{
-				int value = inputInteger("\n\tEnter an index(subscript) from MyBag to be deleted: ", 0, bag.getSize() -1 );
+				int value = inputInteger("\n\tEnter an index(subscript) from MyBag to be deleted: ", 0, bag.getSize() - 1);
 				cout << "\n\tValue " + to_string(bag[value]) + " has been deleted from MyBag.\n\n";
 				bag.remove(value);
 			}
@@ -113,14 +110,14 @@ void option1()
 		}break;
 		case 'F':
 		{
-			try
+			if (bag.getSize() == 0)
 			{
-				bag.display();
-			}
-			catch (string exceptionString)
-			{
-				cout << exceptionString;
+				cout << "\n\t\tMyBag is empty.\n\n";
 				break;
+			}
+			else
+			{
+				cout << bag;
 			}
 
 		}break;
@@ -131,12 +128,16 @@ void option1()
 
 
 }
+
+//Precondition: N/A
+//Postcondition: Displays a menu for Template MyBag<double> container
 void option2()
 {
+	MyBagTemplate<double> bag;
 	do
 	{
 		system("cls");
-		cout << "\n\t2> Non-template MyBag of integers";
+		cout << "\n\t2> Template MyBag<double> of items";
 		cout << "\n\t" << string(65, char(205));
 		cout << "\n\t\tA> clear";
 		cout << "\n\t\tB> insert";
@@ -147,25 +148,83 @@ void option2()
 		cout << "\n\t" << string(65, char(196));
 		cout << "\n\t\t0> return";
 		cout << "\n\t" << string(65, char(205));
-		switch (inputChar("\n\t\tOption: ", static_cast<string>("abcdef0")))
+		switch (toupper(inputChar("\n\t\tOption: ", static_cast<string>("abcdef0"))))
 		{
 		case '0': return; break;
-		case 'A': break;
-		case 'B': break;
-		case 'D': break;
-		case 'E': break;
-		case 'F': break;
-		case 'C': break;
+		case 'A':
+		{
+				bag.clear();
+		}; break;
+		case 'B':
+		{
+			int value = inputInteger("\n\t\tEnter a value and insert into MyBagTemplate : ");
+			bag.insert(value);
+			cout << "\n\t\t" + to_string(value) + " has been inserted into MyBagTemplate .\n\n";
+
+		}break;
+		case 'C':
+		{
+			if (bag.getSize() != 0)
+			{
+				int value = inputInteger("\n\tEnter a value to search from MyBagTemplate: ");
+				if (bag.linearSearch(value) != -1)
+					cout << "\n\tValue " << value << " is found at subscript #" << bag.linearSearch(value) << " from MyBagTemplate.\n\n";
+				else
+					cout << "\n\tValue " << value << " is not found from MyBagTemplate.\n\n";
+			}
+			else
+				cout << "\n\t\tMyBag is empty.\n\n";
+
+
+		}break;
+		case 'D':
+		{
+			if (bag.getSize() != 0)
+			{
+				int value = inputInteger("\n\tEnter an index(subscript) from MyBagTemplate to be deleted: ", 0, bag.getSize() - 1);
+				cout << "\n\tValue " + to_string(bag[value]) + " has been deleted from MyBagTemplate.\n\n";
+				bag.remove(value);
+			}
+			else
+				cout << "\n\t\tMyBagTemplate is empty.\n\n";
+
+		}break;
+		case 'E':
+		{
+			bag.sortBag();
+
+		}break;
+		case 'F':
+		{
+			if (bag.getSize() == 0)
+			{
+				cout << "\n\t\tMyBagTemplate is empty.\n\n";
+				break;
+			}
+			else
+			{
+				cout << bag;
+			}
+
+		}break;
 
 		}
+		system("pause");
 	} while (true);
 }
+
+//Precondition: N/A
+//Postcondition: Displays a menu for Application using MyBag container and Course class
 void option3()
 {
+	Course* courses = nullptr;
+	int numCourses = 0;
+	bool coursesCreated = false;
+
 	do
 	{
 		system("cls");
-		cout << "\n\t3) Courses using MyBags of integers, strings, doubles, and chars";
+		cout << "\n\t3) Courses using MyBag of integers, strings, doubles, and chars";
 		cout << "\n\t" << string(65, char(205));
 		cout << "\n\t\t1> Specify the number of courses";
 		cout << "\n\t\t2> Read in data file and insert into courses";
@@ -177,12 +236,37 @@ void option3()
 		cout << "\n\t" << string(65, char(205));
 		switch (inputInteger("\n\t\tOption: ", 0, 5))
 		{
-		case 0: return;break;
-		case 1: break;
-		case 2: break;
-		case 3: break;
-		case 4: break;
-		case 5: break;
+		case 0:
+		{
+			delete[] courses;
+			return;
+		}
+		break;
+		case 1:
+		{
+			numCourses = inputInteger("\n\t");
+		}
+		break;
+		case 2:
+		{
+
+		}
+		break;
+		case 3:
+		{
+
+		}
+		break;
+		case 4:
+		{
+
+		}
+		break;
+		case 5:
+		{
+
+		}
+		break;
 		}
 
 
