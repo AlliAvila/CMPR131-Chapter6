@@ -48,8 +48,18 @@ public:
 
     void growBag()
     {
-        T* temp = new T[capacity * 2];
-        capacity *= 2;
+        int newCapacity;
+
+        if (capacity != 0)
+        {
+            newCapacity = capacity * 2;
+        }
+        else
+        {
+            newCapacity = 3;
+        }
+
+        T* temp = new T[newCapacity];  
 
         for (int i = 0; i < size; i++)
         {
@@ -58,6 +68,7 @@ public:
 
         delete[] bag;
         bag = temp;
+        capacity = newCapacity;
     }
 
     void clear()
@@ -83,7 +94,9 @@ public:
     void remove(int index)
     {
         if (index < 0 || index >= size)
+        {
             return;
+        }
 
         for (int i = index; i < size - 1; i++)
         {
