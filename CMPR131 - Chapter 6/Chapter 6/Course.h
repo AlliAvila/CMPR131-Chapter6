@@ -175,7 +175,7 @@ public:
         }
     }
 
-    char calculateGrade(double score)
+    char calculateGrade(double score) const
     {
         if (score >= 90)
         {
@@ -199,7 +199,7 @@ public:
         }
     }
 
-    double calculateAverageScore()
+    double calculateAverageScore() const
     {
         if (studentScores.getSize() == 0)
         {
@@ -222,10 +222,34 @@ public:
         return courseName < other.courseName;
     }
 
-    // Friend function for output
-    friend ostream& operator<<(ostream& out, const Course& c)
-    {
-        out << "Course: " << c.courseName << " (" << c.studentIDs.getSize() << " students)";
-        return out;
-    }
+    friend ostream& operator<<(ostream& out, const Course& c);
 };
+
+ostream& operator<<(ostream& out, const Course& c)
+{
+    out << "\n\t" << c.courseName;
+    out << "\n\t" << string(80, char(196));
+    out << "\n\t" << setw(10) << "Index"
+        << setw(15) << "StudentID"
+        << setw(30) << "Name"
+        << setw(10) << "Score"
+        << setw(8) << "Grade";
+
+    out << "\n\t" << string(80, char(196));
+
+    for (int i = 0; i < c.getSize(); i++)
+    {
+        out << "\n\t"
+            << setw(10) << i
+            << setw(15) << c.studentIDs[i]
+            << setw(30) << c.studentNames[i]
+            << setw(10) << fixed << setprecision(1) << c.studentScores[i]
+            << setw(8) << c.studentGrades[i];
+    }
+
+    out << "\n\n\tAverage score and grade: "
+        << fixed << setprecision(1) << c.calculateAverageScore()
+        << "(" << c.calculateGrade(c.calculateAverageScore()) << ")\n";
+
+    return out;
+}
