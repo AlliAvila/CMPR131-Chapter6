@@ -337,8 +337,7 @@ void option3()
 				// Display all courses with index
 				for (int i = 0; i < numCourses; i++)
 				{
-					cout << "\n\t\t" << (i + 1) << "> " << courses[i].getCourseName()
-						<< " (" << courses[i].getSize() << " students)";
+					cout << "\n\t\t" << (i + 1) << "> " << courses[i].getCourseName();
 				}
 
 				cout << "\n\t" << string(65, char(196));
@@ -433,5 +432,6 @@ void option3()
 	} while (true);
 
 }
+
 
 
