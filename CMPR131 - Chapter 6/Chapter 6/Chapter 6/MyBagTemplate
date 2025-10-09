@@ -58,8 +58,18 @@ public:
 	// Postcondition: Double the capacity of the bag when full
     void growBag()
     {
-        T* temp = new T[capacity * 2];
-        capacity *= 2;
+        int newCapacity;
+
+        if (capacity != 0)
+        {
+            newCapacity = capacity * 2;
+        }
+        else
+        {
+            newCapacity = 3;
+        }
+
+        T* temp = new T[newCapacity];
 
         for (int i = 0; i < size; i++)
         {
@@ -68,6 +78,7 @@ public:
 
         delete[] bag;
         bag = temp;
+        capacity = newCapacity;
     }
 
 	// Precondition: N/A
@@ -86,7 +97,7 @@ public:
     void sortBag()
     {
         sort(bag, bag + size);
-        cout << "\n\tMybag has been sorted.\n\n";
+        cout << "\n\tMyBagTemplate has been sorted.\n\n";
     }
 
 	// Precondition: index is within the range of 0 to size-1
@@ -150,7 +161,7 @@ public:
     friend ostream& operator<<(ostream& output, const MyBagTemplate<T>& b)
     {
        
-            output << "\n\t\tMybagTemplate contains these sorted items:";
+            output << "\n\t\tMyBagTemplate contains these sorted items:";
             for (int i = 0; i < b.size; i++)
                 output << "\n\t\t[" << i << "] - " << b.bag[i];
 
